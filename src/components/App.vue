@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section>
     <transition :name="page">
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>

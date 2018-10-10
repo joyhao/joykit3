@@ -1,53 +1,80 @@
 <template>
-  <h1></h1>
+  <page type="index-list"
+        :title="'joykit'">
+    <div slot="content">
+      <div class="split"></div>
+      <div class="view-wrapper">
+        <div class="index-list-wrapper">
+          <index-list ref="lal" :data="data" :title="title" @select="selectItem" @title-click="clickTitle"></index-list>
+        </div>
+      </div>
+    </div>
+  </page>
 </template>
-<script>
-  // import Vue from 'vue'
-  // import { mapMutations } from 'vuex'
-  // import { mapGetters } from 'vuex'
-  // import { mapActions } from 'vuex'
-  // import Transform from 'css3transform'
-  // import animate from 'animate.css'
-  // import BScroll from 'better-scroll'
+
+<script type="text/ecmascript-6">
+  import Page from '../components/page/page.vue'
+  import IndexList from '../components/list-scroll/list-scroll.vue'
+  import cityData from '../data/index-list.json'
+
   export default {
+    components: {
+      Page,
+      IndexList
+    },
     data() {
-      return {}
+      return {
+        title: 'joykit',
+        cityData: cityData
+      }
     },
-    mounted() {
-      // const vm = this;
-    },
-    methods: {},
     computed: {
-      // ...mapGetters({})
+      data() {
+        let ret = []
+        this.cityData.forEach((cityGroup) => {
+          let group = {}
+          group.name = cityGroup.name
+          group.items = []
+          cityGroup.cities.forEach((city) => {
+            let item = {}
+            item.name = city.name
+            item.value = city.cityid
+            group.items.push(item)
+          })
+          ret.push(group)
+        })
+        return ret
+      }
     },
-    watch: {},
-    beforeRouteEnter(to, from, next) {
-      // 在渲染该组件的对应路由被 confirm 前调用
-      // 不！能！获取组件实例 `this`
-      // 因为当守卫执行前，组件实例还没被创建
-      next(vm => {
-
-      })
-    },
-    beforeRouteUpdate(to, from, next) {
-      // 在当前路由改变，但是该组件被复用时调用
-      // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
-      // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
-      // 可以访问组件实例 `this`
-      next(vm => {
-
-      })
-    },
-    beforeRouteLeave(to, from, next) {
-      // 导航离开该组件的对应路由时调用
-      // 可以访问组件实例 `this`
-      next(vm => {
-
-      })
-    },
-    components: {}
+    methods: {
+      selectItem(item) {
+        this.$router.back()
+        console.log(item)
+      },
+      clickTitle(title) {
+        console.log(title)
+      }
+    }
   }
 </script>
-<style lang="scss" scoped>
-  /*@import "src"*/
+
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  .split
+    position: relative
+    z-index: 10
+    width: 100%
+    height: 10px
+    margin-top: -10px
+    background: #efeff4
+
+  .view-wrapper
+    position: fixed
+    top: 54px
+    left: 0
+    bottom: 0
+    width: 100%
+    .index-list-wrapper
+      height: 100%
+      width: 95%
+      margin: 0 auto
 </style>

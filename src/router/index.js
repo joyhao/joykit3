@@ -11,7 +11,17 @@ const router = new VueRouter({
       name: 'home',
       component: resolve => void (require(['@/view/home.vue'], resolve)), // 懒加载
       meta: {
-        title: 'news',
+        title: 'home',
+        keepAlive: true,
+        footerShow: true
+      }
+    },
+    {
+      path: '/muc',
+      name: 'muc',
+      component: resolve => void (require(['@/view/muc.vue'], resolve)), // 懒加载
+      meta: {
+        title: 'muc',
         keepAlive: true,
         footerShow: true
       }
